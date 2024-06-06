@@ -1,12 +1,16 @@
 <template>
   <h1>Welcome</h1>
   <p>Today is: {{ date }}</p>
-  <DailyDiary/>
+  <DailyPreview/>
+  <FoodLogPreview/>
+  <MoodPreview/>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import DailyDiary from '@/components/DailyDiary.vue'
+import DailyPreview from '@/components/DiaryPreview.vue'
+import FoodLogPreview from '@/components/FoodLogPreview.vue'
+import MoodPreview from '@/components/MoodPreview.vue'
 
 const date = ref(showDate());
 

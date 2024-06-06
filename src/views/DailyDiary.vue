@@ -1,6 +1,6 @@
 <template>
     <div class="diary">
-        This is the diary section
+        This is the diary page
     </div>
 </template>
 <script>
