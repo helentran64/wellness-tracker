@@ -1,6 +1,6 @@
 <template>
     <div>
-        This is the diary page
+        This is the food log page
     </div>
 </template>
 <script>

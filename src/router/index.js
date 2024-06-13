@@ -8,6 +8,21 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomePage
+    },
+    {
+      path: '/food-log',
+      name: 'Food Log',
+      component: () => import('@/views/FoodLog.vue')
+    },
+    {
+      path: '/daily-diary',
+      name: 'Daily Diary',
+      component: () => import('@/views/DailyDiary.vue')
+    },
+    {
+      path: '/daily-mood',
+      name: 'Daily Mood',
+      component: () => import('@/views/DailyMood.vue')
     }
   ]
 })

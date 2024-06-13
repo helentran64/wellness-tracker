@@ -1,11 +1,11 @@
 <template>
-    <div>
-        This is the diary page
+    <div >
+        This is the mood page
     </div>
 </template>
 <script>
 
 </script>
 <style scoped>
-    
+
 </style>
