@@ -4,6 +4,7 @@
   <DailyPreview/>
   <FoodLogPreview/>
   <MoodPreview/>
+  <v-btn>TEST</v-btn>
 </template>
 
 <script setup>
@@ -11,6 +12,7 @@ import { ref } from 'vue';
 import DailyPreview from '@/components/DiaryPreview.vue'
 import FoodLogPreview from '@/components/FoodLogPreview.vue'
 import MoodPreview from '@/components/MoodPreview.vue'
+import {VBtn} from 'vuetify/components'
 
 const date = ref(showDate());
 
