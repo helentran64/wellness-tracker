@@ -7,7 +7,7 @@ import { RouterLink, RouterView } from "vue-router";
     <div>
       <nav>
         <div class="navbar">
-          <RouterLink to="/" class="router-link-item">myWellness</RouterLink>
+          <RouterLink to="/" class="router-link-item logo"><i class="fa-solid fa-carrot"></i>myWellness</RouterLink>
           <span class="navItems">
             <RouterLink to="/food-log" class="router-link-item">FoodLog</RouterLink>
             <RouterLink to="/daily-diary" class="router-link-item">Diary</RouterLink>
@@ -23,19 +23,30 @@ import { RouterLink, RouterView } from "vue-router";
 
 <style scoped>
 .navbar {
-  background-color: rgb(174, 174, 174);
   padding: 10px;
   display: flex;
   justify-content: flex-start;
+  box-shadow: 0 4px 2px -2px gray;
+}
+.navItems .router-link-item{
+  padding: 5px;
 }
 .navItems{
   margin-left:auto;
+  margin-top:5px;
 }
 .router-link-item{
   text-decoration: none;
   color: black;
+  border-radius: 4px;
 }
-.navItems .router-link-item{
-  padding: 5px;
+.navItems .router-link-item:hover {
+  background-color: #f0f0f0;
+}
+.logo{
+  font-size: 20px;
+}
+.fa-carrot{
+  margin: 5px;
 }
 </style>
