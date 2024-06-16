@@ -1,36 +1,65 @@
 <template>
   <div class="greeting">
     <div class="greetingNotes">
-      <h1>Empower Your Wellness Journey</h1>
-      <h2>Your Path to a Healthier Life Starts Here</h2>
-      <v-btn variant="outlined" class="greetingBtn">Learn More</v-btn>
-      <v-btn variant="outlined" class="greetingBtn">Get Started</v-btn>
+      <span class="greetingText">
+        <p>
+          Empower Your <span style="font-weight: 600">Wellness</span> Journey
+          <i class="fa-solid fa-bolt"></i>
+        </p>
+        <p>
+          Your Path to a
+          <span style="font-weight: 600">Healthier Life</span> Starts Here
+        </p></span
+      >
+      <v-btn
+        class="greetingBtn lowerCaseBtn"
+        @click="scrollToSection"
+        >Learn More</v-btn
+      >
+      <v-btn class="greetingBtn lowerCaseBtn">Get Started</v-btn>
     </div>
   </div>
 
-  <DailyPreview />
-  <FoodLogPreview />
-  <MoodPreview />
+  <div class="previews" ref="targetSection">
+    <p class="pagesSubheading">
+      <i class="fa-solid fa-pencil"></i> Food Log
+    </p>
+    <FoodLogPreview />
+    <p class="pagesSubheading"><i class="fa-solid fa-book"></i> Diary</p>
+    <DailyPreview />
+  </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import DailyPreview from "@/components/DiaryPreview.vue";
 import FoodLogPreview from "@/components/FoodLogPreview.vue";
-import MoodPreview from "@/components/MoodPreview.vue";
 import { VBtn } from "vuetify/components";
+import { ref } from "vue";
+const targetSection = ref(null);
+
+function scrollToSection() {
+  if (targetSection.value) {
+    window.scrollTo({
+      top: targetSection.value.offsetTop,
+      behavior: "smooth",
+    });
+  }
+}
 </script>
 
 <style scoped>
+.greetingText p {
+  font-family: "Roboto Mono", monospace;
+  font-size: 25px;
+}
 .greeting {
-  color: white;
+  color: rgb(0, 0, 0);
   height: 100vh;
-  width: 100vw;
-  padding: 50px;
+  width: calc(100vw - 200px);
+  padding: 50px 100px;
   margin: 0;
-  font-size: 30px;
+  font-size: 25px;
   position: relative;
-  background-color: black;
 }
 .greetingNotes {
   margin: 0;
@@ -41,5 +70,20 @@ import { VBtn } from "vuetify/components";
 }
 .greetingBtn {
   margin: 10px 20px 10px 0;
+}
+.previews {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.fa-bolt {
+  color: #65ccff;
+}
+.lowerCaseBtn {
+  text-transform: lowercase;
+}
+.pagesSubheading {
+  font-size: 30px;
+  font-weight: 600;
 }
 </style>
