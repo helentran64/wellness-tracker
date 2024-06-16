@@ -18,11 +18,6 @@ const router = createRouter({
       path: '/daily-diary',
       name: 'Daily Diary',
       component: () => import('@/views/DailyDiary.vue')
-    },
-    {
-      path: '/daily-mood',
-      name: 'Daily Mood',
-      component: () => import('@/views/DailyMood.vue')
     }
   ]
 })

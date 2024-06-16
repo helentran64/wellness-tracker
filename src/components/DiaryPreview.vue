@@ -4,7 +4,10 @@
 <script></script>
 <style scoped>
 .diary {
-  padding: 30px;
+  padding: 100px;
+  margin-left: auto;
+  margin-right: auto;
   border: 1px solid black;
+  border-radius: 10px;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import PageFooter from "@/components/PageFooter.vue";
 </script>
 
 <template>
@@ -18,15 +19,15 @@ import { RouterLink, RouterView } from "vue-router";
             <RouterLink to="/daily-diary" class="router-link-item"
               >Diary</RouterLink
             >
-            <RouterLink to="/daily-mood" class="router-link-item"
-              >Mood</RouterLink
-            >
           </span>
         </div>
       </nav>
     </div>
   </header>
   <RouterView />
+  <footer>
+    <PageFooter />
+  </footer>
 </template>
 
 <style scoped>
@@ -34,7 +35,6 @@ import { RouterLink, RouterView } from "vue-router";
   padding: 15px;
   display: flex;
   justify-content: flex-start;
-  /*box-shadow: 0 4px 2px -2px rgb(184, 184, 184);*/
   position: relative;
   z-index: 1;
 }
@@ -53,7 +53,7 @@ import { RouterLink, RouterView } from "vue-router";
 }
 .navItems .router-link-item:hover {
   background-color: #f0f0f0;
-  color: rgb(44, 44, 193);
+  color: #0074af;
 }
 .logo {
   font-size: 20px;
