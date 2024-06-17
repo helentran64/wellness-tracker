@@ -73,8 +73,7 @@ function scrollToSection() {
   }
 }
 .greetingText p {
-  font-family: "Roboto Mono", monospace;
-  font-size: 25px;
+  font-size: 35px;
 }
 .greeting {
   color: rgb(0, 0, 0);
