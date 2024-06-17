@@ -8,7 +8,7 @@
 
 <style scoped>
 .footer{
-    padding: 20px;
+    padding: 100px 0 20px 0;
 }
 .footer p{
     text-align: center;
