@@ -128,7 +128,7 @@ function scrollToSection() {
   color: #65ccff;
 }
 .lowerCaseBtn {
-  text-transform: lowercase;
+  text-transform: capitalize;
 }
 .pagesSubheading {
   font-size: 30px;
