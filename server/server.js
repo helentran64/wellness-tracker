@@ -36,7 +36,7 @@ const testUser = new Users({
     password: "12345"
 })
 
-testUser.save().then(doc => {console.log(doc)}).catch(err => {console.log(err)});
+// testUser.save().then(doc => {console.log(doc)}).catch(err => {console.log(err)});
 
 // Define Routes
 // app.use("/api", require("./routes/api"));
