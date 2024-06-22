@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import PageFooter from "@/components/PageFooter.vue";
-import {VBtn} from "vuetify/components"
+import { VBtn } from "vuetify/components";
 </script>
 
 <template>
@@ -20,8 +20,12 @@ import {VBtn} from "vuetify/components"
             <RouterLink to="/daily-diary" class="router-link-item"
               >Diary</RouterLink
             > -->
-            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/sign-up">Sign up</v-btn>
-            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/login">Log in</v-btn>
+            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/sign-up"
+              >Sign up</v-btn
+            >
+            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/login"
+              >Log in</v-btn
+            >
           </span>
         </div>
       </nav>
@@ -58,7 +62,7 @@ import {VBtn} from "vuetify/components"
   background-color: #f0f0f0;
   color: #0074af;
 }
-.lowerCaseBtn{
+.lowerCaseBtn {
   text-transform: capitalize;
 }
 .logo {
