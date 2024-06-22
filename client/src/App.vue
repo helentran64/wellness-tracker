@@ -2,6 +2,18 @@
 import { RouterLink, RouterView } from "vue-router";
 import PageFooter from "@/components/PageFooter.vue";
 import { VBtn } from "vuetify/components";
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+const store = useStore();
+
+const isAuthenticated = computed(() => {
+  return store.getters.isAuthenticated;
+});
+
+function signOut() {
+  store.dispatch("signOut");
+}
 </script>
 
 <template>
@@ -14,16 +26,37 @@ import { VBtn } from "vuetify/components";
             ><span style="font-weight: 500">myWellness</span></RouterLink
           >
           <span class="navItems">
-            <!-- <RouterLink to="/food-log" class="router-link-item"
+            <RouterLink
+              v-if="isAuthenticated"
+              to="/food-log"
+              class="router-link-item"
               >FoodLog</RouterLink
             >
-            <RouterLink to="/daily-diary" class="router-link-item"
+            <RouterLink
+              v-if="isAuthenticated"
+              to="/daily-diary"
+              class="router-link-item"
               >Diary</RouterLink
-            > -->
-            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/sign-up"
+            >
+            <v-btn
+              v-if="isAuthenticated"
+              color="primary"
+              class="mr-2 lowerCaseBtn"
+              @click="signOut"
+              >Sign Out</v-btn
+            >
+            <v-btn
+              v-if="!isAuthenticated"
+              color="primary"
+              class="mr-2 lowerCaseBtn"
+              to="/sign-up"
               >Sign up</v-btn
             >
-            <v-btn color="primary" class="mr-2 lowerCaseBtn" to="/login"
+            <v-btn
+              v-if="!isAuthenticated"
+              color="primary"
+              class="mr-2 lowerCaseBtn"
+              to="/login"
               >Log in</v-btn
             >
           </span>
