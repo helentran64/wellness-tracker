@@ -4,32 +4,43 @@
 
     <div class="signupFormInput">
       <v-text-field
+        v-model="firstName"
         label="First Name"
         variant="outlined"
         type="text"
       ></v-text-field>
       <v-text-field
+        v-model="lastName"
         label="Last Name"
         variant="outlined"
         type="text"
       ></v-text-field>
       <v-text-field
+        v-model="email"
         label="Email"
         variant="outlined"
         type="email"
       ></v-text-field>
       <v-text-field
+        v-model="username"
         label="Username"
         variant="outlined"
         type="text"
       ></v-text-field>
       <v-text-field
+        v-model="password"
         label="Password"
         variant="outlined"
         type="password"
       ></v-text-field>
       <div class="buttonContainer">
-        <v-btn class="lowerCaseBtn" color="primary" style="width: 400px;">Sign Up</v-btn>
+        <v-btn
+          class="lowerCaseBtn"
+          color="primary"
+          style="width: 400px"
+          @click="addUser"
+          >Sign Up</v-btn
+        >
       </div>
       <div class="hasAccount">
         <p>
@@ -44,6 +55,36 @@
 import { VBtn } from "vuetify/components";
 import { VTextField } from "vuetify/lib/components/index.mjs";
 import { RouterLink } from "vue-router";
+import { ref } from "vue";
+import { getUserByUsername, insertUser } from "@/services/usersService";
+
+const firstName = ref("");
+const lastName = ref("");
+const email = ref("");
+const username = ref("");
+const password = ref("");
+
+async function addUser() {
+  try {
+    await insertUser({
+      firstName: firstName.value,
+      lastName: lastName.value,
+      email: email.value,
+      username: username.value,
+      password: password.value,
+    });
+    const user = await getUserByUsername(username.value);
+    const userId = user._id;
+    console.log(userId);
+    firstName.value = "";
+    lastName.value = "";
+    email.value = "";
+    username.value = "";
+    password.value = "";
+  } catch (error) {
+    console.error("Error adding user:", error);
+  }
+}
 </script>
 <style scoped>
 h1 {
