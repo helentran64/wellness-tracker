@@ -79,8 +79,6 @@ async function addUser() {
     });
     const user = await getUserByUsername(username.value);
     if (user) {
-      const userId = user._id;
-      console.log(userId);
       store.dispatch("signIn", user);
       firstName.value = "";
       lastName.value = "";
