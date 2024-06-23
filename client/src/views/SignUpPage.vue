@@ -56,8 +56,12 @@ import { VBtn } from "vuetify/components";
 import { VTextField } from "vuetify/lib/components/index.mjs";
 import { RouterLink } from "vue-router";
 import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import { getUserByUsername, insertUser } from "@/services/usersService";
 
+const store = useStore();
+const router = useRouter();
 const firstName = ref("");
 const lastName = ref("");
 const email = ref("");
@@ -74,13 +78,16 @@ async function addUser() {
       password: password.value,
     });
     const user = await getUserByUsername(username.value);
-    const userId = user._id;
-    console.log(userId);
-    firstName.value = "";
-    lastName.value = "";
-    email.value = "";
-    username.value = "";
-    password.value = "";
+    if (user) {
+      store.dispatch("signIn", user);
+      firstName.value = "";
+      lastName.value = "";
+      email.value = "";
+      username.value = "";
+      password.value = "";
+
+      router.push("/");
+    }
   } catch (error) {
     console.error("Error adding user:", error);
   }

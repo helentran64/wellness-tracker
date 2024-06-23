@@ -15,7 +15,7 @@
         <v-btn class="greetingBtn lowerCaseBtn" @click="scrollToSection"
           >Learn More</v-btn
         >
-        <v-btn class="greetingBtn lowerCaseBtn">Get Started</v-btn>
+        <v-btn class="greetingBtn lowerCaseBtn" to="/login">Get Started</v-btn>
       </div>
       <div class="greetingImage">
         <img
