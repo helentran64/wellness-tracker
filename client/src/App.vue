@@ -4,6 +4,7 @@ import PageFooter from "@/components/PageFooter.vue";
 import { VBtn } from "vuetify/components";
 import { useStore } from "vuex";
 import { computed } from "vue";
+import router from "./router";
 
 const store = useStore();
 
@@ -13,6 +14,7 @@ const isAuthenticated = computed(() => {
 
 function signOut() {
   store.dispatch("signOut");
+  router.push("/");
 }
 </script>
 
