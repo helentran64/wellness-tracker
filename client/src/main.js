@@ -2,8 +2,9 @@ import "./assets/global.css";
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "vuetify/styles";
 import { createVuetify } from "vuetify";
+import "vuetify/styles";
+import '@mdi/font/css/materialdesignicons.css';
 import store from "./store"
 
 const vuetify = createVuetify({});
