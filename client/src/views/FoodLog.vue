@@ -40,6 +40,8 @@
 import { VTextField, VBtn, VSelect } from "vuetify/lib/components/index.mjs";
 import { reactive, ref } from "vue";
 import axios from "axios";
+import { useStore } from "vuex";
+import { getFoodLog, insertToFoodLog } from "@/services/foodLogsService";
 const meals = ["Breakfast", "Lunch", "Dinner", "Snack"];
 const meal = ref("");
 const foodCode = ref("");
@@ -48,6 +50,7 @@ const breakfast = reactive([]);
 const lunch = reactive([]);
 const dinner = reactive([]);
 const snack = reactive([]);
+const store = useStore();
 
 function getFood(foodId) {
   const id = foodId;
@@ -63,22 +66,36 @@ function getFood(foodId) {
     .then((response) => {
       const data = response.data;
       foodDescription.value = data[0].food_description;
-      recordToLog();
+      recordToDataBase();
     })
     .catch((error) => {
       console.error("Error fetching food data:", error);
     });
 }
 
-function recordToLog() {
-  if (meal.value === "Breakfast") {
-    breakfast.push(foodDescription.value);
-  } else if (meal.value === "Lunch") {
-    lunch.push(foodDescription.value);
-  } else if (meal.value === "Dinner") {
-    dinner.push(foodDescription.value);
-  } else if (meal.value === "Snack") {
-    snack.push(foodDescription.value);
+// function recordToLog() {
+//   if (meal.value === "Breakfast") {
+//     breakfast.push(foodDescription.value);
+//   } else if (meal.value === "Lunch") {
+//     lunch.push(foodDescription.value);
+//   } else if (meal.value === "Dinner") {
+//     dinner.push(foodDescription.value);
+//   } else if (meal.value === "Snack") {
+//     snack.push(foodDescription.value);
+//   }
+// }
+
+async function recordToDataBase() {
+  try {
+    const user = store.getters.getUser;
+    const username = user.username;
+    await insertToFoodLog(
+      username,
+      meal.value.toLowerCase(),
+      foodDescription.value
+    );
+  } catch (error) {
+    console.error("Error adding to database", error);
   }
 }
 </script>
