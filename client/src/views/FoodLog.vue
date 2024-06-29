@@ -12,25 +12,25 @@
     <p class="infoHeadings">Your food log</p>
     <div>
       <p class="mealFont" v-if="breakfast.length">Breakfast</p>
-      <ul v-for="(food, i) in breakfast[0]" :key="i">
+      <ul v-for="(food, i) in breakfast" :key="i">
         <li>{{ food }}</li>
       </ul>
     </div>
     <div>
       <p class="mealFont" v-if="lunch.length">Lunch</p>
-      <ul v-for="(food, i) in lunch[0]" :key="i">
+      <ul v-for="(food, i) in lunch" :key="i">
         <li>{{ food }}</li>
       </ul>
     </div>
     <div>
       <p class="mealFont" v-if="dinner.length">Dinner</p>
-      <ul v-for="(food, i) in dinner[0]" :key="i">
+      <ul v-for="(food, i) in dinner" :key="i">
         <li>{{ food }}</li>
       </ul>
     </div>
     <div>
       <p class="mealFont" v-if="snack.length">Snack</p>
-      <ul v-for="(food, i) in snack[0]" :key="i">
+      <ul v-for="(food, i) in snack" :key="i">
         <li>{{ food }}</li>
       </ul>
     </div>
@@ -104,10 +104,10 @@ async function recordToDataBase() {
 
 async function fetchFromDataBase(username) {
   const foodlogResults = await getFoodLog(username);
-  breakfast.splice(0, breakfast.length, foodlogResults.breakfast);
-  lunch.splice(0, lunch.length, foodlogResults.lunch);
-  dinner.splice(0, dinner.length, foodlogResults.dinner);
-  snack.splice(0, snack.length, foodlogResults.snack);
+  breakfast.splice(0, breakfast.length, ...(foodlogResults.breakfast || []));
+  lunch.splice(0, lunch.length, ...(foodlogResults.lunch || []));
+  dinner.splice(0, dinner.length, ...(foodlogResults.dinner || []));
+  snack.splice(0, snack.length, ...(foodlogResults.snack || []));
 }
 </script>
 <style scoped>
