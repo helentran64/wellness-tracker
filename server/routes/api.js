@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Users = require("../models/usersModels");
 const FoodLogs = require("../models/foodlogsModels");
+const Diaries = require("../models/diariesModels");
 
 router.get("/users", async (req, res) => {
   try {
@@ -89,4 +90,29 @@ router.post("/foodlogs/:username", async (req, res) => {
   }
 });
 
+router.post("/diaries/:username", async (req, res) => {
+  const { username } = req.params;
+  const { topic, note, dateAndTime } = req.body;
+
+  try {
+    let userDiary = await Diaries.findOne({ username: username });
+
+    if (userDiary) {
+      userDiary.topics.push(topic);
+      userDiary.notes.push(topic);
+      userDiary.dateAndTimes.push(dateAndTime);
+    } else {
+      userDiary = new Diaries({
+        username: username,
+        topics: topic,
+        notes: note,
+        dateAndTimes: dateAndTime,
+      });
+    }
+    await userDiary.save();
+    res.json(userDiary);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 module.exports = router;
