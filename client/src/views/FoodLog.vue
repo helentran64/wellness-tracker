@@ -9,7 +9,7 @@
     >
   </div>
   <div class="foodLog">
-    <p class="infoHeadings">Your food log</p>
+    <p class="infoHeadings" v-show="foodLogExists">Your food log</p>
     <div>
       <p class="mealFont" v-if="breakfast.length">Breakfast</p>
       <ul v-for="(food, i) in breakfast" :key="i">
@@ -46,6 +46,7 @@ const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]; // For the drop down me
 const meal = ref(""); // The current meal the user entered
 const foodCode = ref("");
 const foodDescription = ref("");
+const foodLogExists = ref(false);
 const breakfast = reactive([]);
 const lunch = reactive([]);
 const dinner = reactive([]);
@@ -62,8 +63,9 @@ onMounted(async () => {
   // Load the food log if the user has one
   try {
     await fetchFromDataBase(username.value);
+    foodLogExists.value = true;
   } catch (err) {
-    console.error(`${username.value}'s food log does not exist`);
+    foodLogExists.value = false;
   }
 });
 
@@ -84,6 +86,7 @@ async function getFood(foodId) {
     await recordToDataBase();
     if (username.value) {
       await fetchFromDataBase(username.value);
+      foodLogExists.value = true;
     }
   } catch (error) {
     console.error("Error fetching food data:", error);
