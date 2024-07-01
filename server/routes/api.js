@@ -50,6 +50,15 @@ router.post("/users", async (req, res) => {
   }
 });
 
+router.get("/foodlogs", async (req, res) => {
+  try {
+    const foodlogs = await FoodLogs.find();
+    res.json(foodlogs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get("/foodlogs/:username", async (req, res) => {
   const username = req.params.username;
   try {
@@ -90,6 +99,25 @@ router.post("/foodlogs/:username", async (req, res) => {
   }
 });
 
+router.get("/diaries", async (req, res) => {
+  try {
+    const diaries = await Diaries.find();
+    res.json(diaries);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/diaries/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const diary = await Diaries.findOne({ username: username });
+    res.json(diary);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.post("/diaries/:username", async (req, res) => {
   const { username } = req.params;
   const { topic, note, dateAndTime } = req.body;
@@ -99,7 +127,7 @@ router.post("/diaries/:username", async (req, res) => {
 
     if (userDiary) {
       userDiary.topics.push(topic);
-      userDiary.notes.push(topic);
+      userDiary.notes.push(note);
       userDiary.dateAndTimes.push(dateAndTime);
     } else {
       userDiary = new Diaries({

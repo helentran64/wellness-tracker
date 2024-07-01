@@ -15,57 +15,116 @@
       @click="insertNotesToDB"
       >submit</v-btn
     >
+    <p class="infoHeadings" v-show="diaryData.topics.length">Your Diary</p>
+    <div
+      v-for="(diaryTopic, i) in diaryData.topics"
+      :key="i"
+      class="diaryCards"
+    >
+      <v-card variant="elevated">
+        <v-card-item>
+          <div>
+            <h3>{{ diaryTopic }}</h3>
+            <div>{{ diaryData.notes[i] }}</div>
+            <div class="dateAndTimeOutput">{{ diaryData.dateAndTimes[i] }}</div>
+          </div>
+        </v-card-item>
+      </v-card>
+    </div>
   </div>
 </template>
 <script setup>
-import { VTextField, VTextarea, VBtn } from "vuetify/lib/components/index.mjs";
-import { onMounted, ref } from "vue";
+import {
+  VTextField,
+  VTextarea,
+  VBtn,
+  VCard,
+  VCardItem,
+} from "vuetify/lib/components/index.mjs";
+import { onMounted, reactive, ref } from "vue";
 import { useStore } from "vuex";
-import { insertToDiary } from "@/services/diariesService";
+import { insertToDiary, getDiary } from "@/services/diariesService";
 const store = useStore();
 const topic = ref("");
 const note = ref("");
 const user = ref("");
 const username = ref("");
 const dateAndTime = ref("");
+const diaryData = {
+  topics: reactive([]),
+  notes: reactive([]),
+  dateAndTimes: reactive([]),
+};
 
-onMounted(() => {
+onMounted(async () => {
   user.value = store.getters.getUser;
   username.value = user.value.username;
-  generateDateAndTime();
+
+  try {
+    await getUserDiary(username.value);
+  } catch (err) {
+    console.error(`${username.value}'s diary does not exist`);
+  }
 });
 
 function generateDateAndTime() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
   let hours = now.getHours();
   const minutes = String(now.getMinutes()).padStart(2, "0");
-  const seconds = String(now.getSeconds()).padStart(2, "0");
   const ampm = hours >= 12 ? "PM" : "AM";
 
   hours = hours % 12;
   hours = hours ? hours : 12;
   const strTime = `${hours}:${minutes}${ampm}`;
-
   const currentdateAndTime = `${year}-${month}-${day} ${strTime}`;
   dateAndTime.value = currentdateAndTime;
 }
 
 async function insertNotesToDB() {
   try {
-    await insertToDiary(username.value, topic, note, dateAndTime.value);
-    console.log("Added to db");
+    generateDateAndTime();
+    await insertToDiary(
+      username.value,
+      topic.value,
+      note.value,
+      dateAndTime.value
+    );
+    await getUserDiary(username.value);
   } catch (err) {
     console.err("Failed to add to db", err);
   }
 }
+
+async function getUserDiary() {
+  try {
+    const result = await getDiary(username.value);
+    diaryData.topics.splice(0, diaryData.topics.length, ...result.topics);
+    diaryData.notes.splice(0, diaryData.notes.length, ...result.notes);
+    diaryData.dateAndTimes.splice(
+      0,
+      diaryData.dateAndTimes,
+      ...result.dateAndTimes
+    );
+  } catch (err) {
+    console.err(err);
+  }
+}
 </script>
 <style scoped>
+h3 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.dateAndTimeOutput {
+  color: #8f8f8f;
+}
 .infoHeadings {
   font-size: 20px;
   font-weight: 500;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 .lowerCaseBtn {
@@ -76,5 +135,9 @@ async function insertNotesToDB() {
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
+}
+.diaryCards {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
