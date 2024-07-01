@@ -63,10 +63,6 @@ router.get("/foodlogs/:username", async (req, res) => {
   const username = req.params.username;
   try {
     const userFoodLog = await FoodLogs.findOne({ username: username });
-    // Check if user exists
-    if (!userFoodLog) {
-      return res.status(404).json({ message: "User not found" });
-    }
     return res.json(userFoodLog);
   } catch (err) {
     res.status(500).json({ message: err.message });

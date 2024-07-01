@@ -1,6 +1,7 @@
 <template>
   <div class="inputField">
     <p class="infoHeadings">How are you feeling today?</p>
+    <p v-show="diaryExists">{{ startDiaryNote }}</p>
     <v-text-field
       v-model="topic"
       label="Topic"
@@ -15,7 +16,7 @@
       @click="insertNotesToDB"
       >submit</v-btn
     >
-    <p class="infoHeadings" v-show="diaryData.topics.length">Your Diary</p>
+    <p class="infoHeadings" v-show="diaryExists">Your Diary</p>
     <div
       v-for="(diaryTopic, i) in diaryData.topics"
       :key="i"
@@ -55,6 +56,8 @@ const diaryData = {
   notes: reactive([]),
   dateAndTimes: reactive([]),
 };
+const startDiaryNote = "Enter diary entry to create your diary";
+const diaryExists = ref(false);
 
 onMounted(async () => {
   user.value = store.getters.getUser;
@@ -62,8 +65,9 @@ onMounted(async () => {
 
   try {
     await getUserDiary(username.value);
+    diaryExists.value = true;
   } catch (err) {
-    console.error(`${username.value}'s diary does not exist`);
+    diaryExists.value = false;
   }
 });
 
@@ -93,6 +97,7 @@ async function insertNotesToDB() {
       dateAndTime.value
     );
     await getUserDiary(username.value);
+    diaryExists.value = true;
   } catch (err) {
     console.err("Failed to add to db", err);
   }
