@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Users = require("../models/usersModels");
 const FoodLogs = require("../models/foodlogsModels");
+const Diaries = require("../models/diariesModels");
 
 router.get("/users", async (req, res) => {
   try {
@@ -49,6 +50,15 @@ router.post("/users", async (req, res) => {
   }
 });
 
+router.get("/foodlogs", async (req, res) => {
+  try {
+    const foodlogs = await FoodLogs.find();
+    res.json(foodlogs);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get("/foodlogs/:username", async (req, res) => {
   const username = req.params.username;
   try {
@@ -89,4 +99,48 @@ router.post("/foodlogs/:username", async (req, res) => {
   }
 });
 
+router.get("/diaries", async (req, res) => {
+  try {
+    const diaries = await Diaries.find();
+    res.json(diaries);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get("/diaries/:username", async (req, res) => {
+  const username = req.params.username;
+  try {
+    const diary = await Diaries.findOne({ username: username });
+    res.json(diary);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/diaries/:username", async (req, res) => {
+  const { username } = req.params;
+  const { topic, note, dateAndTime } = req.body;
+
+  try {
+    let userDiary = await Diaries.findOne({ username: username });
+
+    if (userDiary) {
+      userDiary.topics.push(topic);
+      userDiary.notes.push(note);
+      userDiary.dateAndTimes.push(dateAndTime);
+    } else {
+      userDiary = new Diaries({
+        username: username,
+        topics: topic,
+        notes: note,
+        dateAndTimes: dateAndTime,
+      });
+    }
+    await userDiary.save();
+    res.json(userDiary);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 module.exports = router;
