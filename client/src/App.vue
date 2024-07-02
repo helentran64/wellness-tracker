@@ -15,6 +15,7 @@ const isAuthenticated = computed(() => {
 function signOut() {
   store.dispatch("signOut");
   router.push("/");
+  window.location.reload();
 }
 </script>
 
@@ -92,9 +93,9 @@ function signOut() {
   text-decoration: none;
   color: black;
   border-radius: 4px;
+  margin-right: 10px;
 }
 .navItems .router-link-item:hover {
-  background-color: #f0f0f0;
   color: #0074af;
 }
 .lowerCaseBtn {
