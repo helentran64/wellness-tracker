@@ -66,7 +66,7 @@ onMounted(async () => {
   try {
     await getUserDiary(username.value);
     diaryExists.value = true;
-  } catch (err) {
+  } catch {
     diaryExists.value = false;
   }
 });
@@ -96,6 +96,8 @@ async function insertNotesToDB() {
       note.value,
       dateAndTime.value
     );
+    topic.value = "";
+    note.value = "";
     await getUserDiary(username.value);
     diaryExists.value = true;
   } catch (err) {

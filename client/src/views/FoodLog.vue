@@ -9,35 +9,40 @@
     >
   </div>
   <div class="foodLog">
-    <p class="infoHeadings" v-show="foodLogExists">Your food log</p>
-    <div>
-      <p class="mealFont" v-if="breakfast.length">Breakfast</p>
-      <ul v-for="(food, i) in breakfast" :key="i">
-        <li>{{ food }}</li>
-      </ul>
-    </div>
-    <div>
-      <p class="mealFont" v-if="lunch.length">Lunch</p>
-      <ul v-for="(food, i) in lunch" :key="i">
-        <li>{{ food }}</li>
-      </ul>
-    </div>
-    <div>
-      <p class="mealFont" v-if="dinner.length">Dinner</p>
-      <ul v-for="(food, i) in dinner" :key="i">
-        <li>{{ food }}</li>
-      </ul>
-    </div>
-    <div>
-      <p class="mealFont" v-if="snack.length">Snack</p>
-      <ul v-for="(food, i) in snack" :key="i">
-        <li>{{ food }}</li>
-      </ul>
-    </div>
+    <v-card v-if="breakfast.length" class="mealCards">
+      <v-card-item>
+        <div class="mealFont">Breakfast</div>
+        <div v-for="(food, i) in breakfast" :key="i">{{ food }}</div>
+      </v-card-item>
+    </v-card>
+    <v-card v-if="lunch.length" class="mealCards">
+      <v-card-item>
+        <div class="mealFont">Lunch</div>
+        <div v-for="(food, i) in lunch" :key="i">{{ food }}</div>
+      </v-card-item>
+    </v-card>
+    <v-card v-if="dinner.length" class="mealCards">
+      <v-card-item>
+        <div class="mealFont">Dinner</div>
+        <div v-for="(food, i) in dinner" :key="i">{{ food }}</div>
+      </v-card-item>
+    </v-card>
+    <v-card v-if="snack.length" class="mealCards">
+      <v-card-item>
+        <div class="mealFont">Snack</div>
+        <div v-for="(food, i) in snack" :key="i">{{ food }}</div>
+      </v-card-item>
+    </v-card>
   </div>
 </template>
 <script setup>
-import { VTextField, VBtn, VSelect } from "vuetify/lib/components/index.mjs";
+import {
+  VTextField,
+  VBtn,
+  VSelect,
+  VCard,
+  VCardItem,
+} from "vuetify/lib/components/index.mjs";
 import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
@@ -64,7 +69,7 @@ onMounted(async () => {
   try {
     await fetchFromDataBase(username.value);
     foodLogExists.value = true;
-  } catch (err) {
+  } catch {
     foodLogExists.value = false;
   }
 });
@@ -100,6 +105,8 @@ async function recordToDataBase() {
       meal.value.toLowerCase(),
       foodDescription.value
     );
+    foodCode.value = "";
+    meal.value = "";
   } catch (error) {
     console.error("Error adding to database", error);
   }
@@ -127,6 +134,11 @@ async function fetchFromDataBase(username) {
   font-weight: 500;
 }
 .mealFont {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.mealCards {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 </style>

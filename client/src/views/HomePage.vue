@@ -15,7 +15,7 @@
         <v-btn class="greetingBtn lowerCaseBtn" @click="scrollToSection"
           >Learn More</v-btn
         >
-        <v-btn class="greetingBtn lowerCaseBtn" to="/login">Get Started</v-btn>
+        <v-btn v-show="!loggedIn" class="greetingBtn lowerCaseBtn" to="/login">Get Started</v-btn>
       </div>
       <div class="greetingImage">
         <img
@@ -50,8 +50,22 @@
 import DailyPreview from "@/components/DiaryPreview.vue";
 import FoodLogPreview from "@/components/FoodLogPreview.vue";
 import { VBtn } from "vuetify/components";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
 const targetSection = ref(null);
+const loggedIn = ref(false);
+
+onMounted(() => {
+  try {
+    const user = store.getters.getUser;
+    if (user) {
+      loggedIn.value = true;
+    }
+  } catch {
+    loggedIn.value = false;
+  }
+});
 
 function scrollToSection() {
   if (targetSection.value) {
