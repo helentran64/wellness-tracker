@@ -1,7 +1,9 @@
 <template>
   <div class="loginContainer">
     <h1>myWellness</h1>
-    <p v-if="loggedInError" class="loginError">Unable to login. Please try again</p>
+    <p v-if="loggedInError" class="loginError">
+      Unable to login. Please try again
+    </p>
     <div class="loginFormInput">
       <v-text-field
         v-model="username"
@@ -67,7 +69,7 @@ async function logUserIn() {
 h1 {
   text-align: center;
 }
-.loginError{
+.loginError {
   text-align: center;
   color: red;
 }
