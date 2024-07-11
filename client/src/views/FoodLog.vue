@@ -1,12 +1,32 @@
 <template>
-  <div class="foodInput">
-    <p class="infoHeadings">What did you eat today? Enter the food code</p>
-    <v-text-field v-model="foodCode"></v-text-field>
-    <p class="infoHeadings">Was it for breakfast, lunch, dinner, or a snack?</p>
-    <v-select v-model="meal" :items="meals"></v-select>
-    <v-btn style="width: 600px" color="primary" @click="getFood(foodCode)"
-      >submit</v-btn
-    >
+  <div class="foodForm">
+    <div class="inputStyle">
+      <p class="inputHeadings">What did you eat today?</p>
+      <v-autocomplete
+        v-model="foodCode"
+        width="400"
+        density="compact"
+      ></v-autocomplete>
+    </div>
+    <div class="inputStyle">
+      <p class="inputHeadings">
+        Was it for breakfast, lunch, dinner, or a snack?
+      </p>
+      <v-select
+        v-model="meal"
+        :items="meals"
+        width="400"
+        density="compact"
+      ></v-select>
+    </div>
+    <div class="submitButton">
+      <v-btn
+        color="black"
+        @click="getFood(foodCode)"
+        icon="mdi-magnify"
+        variant="text"
+      ></v-btn>
+    </div>
   </div>
   <div class="foodLog">
     <v-card v-if="breakfast.length" class="mealCards">
@@ -37,7 +57,7 @@
 </template>
 <script setup>
 import {
-  VTextField,
+  VAutocomplete,
   VBtn,
   VSelect,
   VCard,
@@ -121,17 +141,27 @@ async function fetchFromDataBase(username) {
 }
 </script>
 <style scoped>
-.foodInput {
-  width: 500px;
+.foodForm {
   margin: 50px auto 50px auto;
+  display: flex;
+  width: 900px;
+}
+.inputStyle {
+  width: 400px;
+  margin-right: 5px;
+  display: flex;
+  flex-direction: column;
 }
 .foodLog {
   width: 500px;
   margin: 50px auto 50px auto;
 }
-.infoHeadings {
-  font-size: 20px;
+.inputHeadings {
+  font-size: 15px;
   font-weight: 500;
+}
+.submitButton {
+  margin-top: 20px;
 }
 .mealFont {
   font-size: 20px;
