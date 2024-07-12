@@ -1,5 +1,8 @@
 import { api } from "./api";
 
+/**
+ * Get the user's diary entries
+ */
 export async function getDiary(username) {
   try {
     const result = await api.get(`/diaries/${username}`);
@@ -9,6 +12,9 @@ export async function getDiary(username) {
   }
 }
 
+/**
+ * Insert the user's diary entry into the database
+ */
 export async function insertToDiary(username, topic, note, dateAndTime) {
   try {
     const result = await api.post(`/diaries/${username}`, {

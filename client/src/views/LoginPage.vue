@@ -50,6 +50,9 @@ const username = ref("");
 const password = ref("");
 const loggedInError = ref(false);
 
+/**
+ * If user credentials are successful, sign user in
+ */
 async function logUserIn() {
   try {
     const user = await getUserByUsername(username.value);
