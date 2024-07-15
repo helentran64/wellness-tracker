@@ -1,5 +1,8 @@
 import { api } from "./api";
 
+/**
+ * Get the all users' information from the database
+ */
 export async function getUsers() {
   try {
     const response = await api.get("/users");
@@ -9,6 +12,9 @@ export async function getUsers() {
   }
 }
 
+/**
+ * With the user's username, get their information
+ */
 export async function getUserByUsername(username) {
   try {
     const response = await api.get(`/users/${username}`);
@@ -19,6 +25,9 @@ export async function getUserByUsername(username) {
   }
 }
 
+/**
+ * Insert user's information into the database
+ */
 export async function insertUser(userInformation) {
   try {
     const response = await api.post("/users", userInformation);

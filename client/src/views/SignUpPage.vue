@@ -68,6 +68,9 @@ const email = ref("");
 const username = ref("");
 const password = ref("");
 
+/**
+ * Add user into the database after signing up for an account
+ */
 async function addUser() {
   try {
     await insertUser({
