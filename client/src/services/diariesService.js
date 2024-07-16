@@ -8,7 +8,7 @@ export async function getDiary(username) {
     const result = await api.get(`/diaries/${username}`);
     return result.data;
   } catch (err) {
-    console.err(`Fail to fetch ${username}'s diary`, err);
+    console.error(`Fail to fetch ${username}'s diary`, err);
   }
 }
 
@@ -24,7 +24,7 @@ export async function insertToDiary(username, topic, note, dateAndTime) {
     });
     return result.data;
   } catch (err) {
-    console.err(
+    console.error(
       `Failed to insert ${username}'s notes to the diaries table`,
       err
     );

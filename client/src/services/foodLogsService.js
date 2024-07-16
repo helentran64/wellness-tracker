@@ -9,12 +9,13 @@ export async function getFoodLog(username) {
   }
 }
 
-export async function insertToFoodLog(username, mealType, meal) {
+export async function insertToFoodLog(username, mealType, food) {
   try {
-    const response = await api.post(`/foodlogs/${username}`, {
-      mealType,
-      meal,
-    });
+    const data = {
+      mealType: mealType.toLowerCase(),
+      food
+    };
+    const response = await api.post(`/foodlogs/${username}`, data);
     return response.data;
   } catch (err) {
     console.error("Error inserting to food log", err);

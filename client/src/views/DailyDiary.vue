@@ -104,7 +104,7 @@ async function insertNotesToDB() {
     await getUserDiary(username.value);
     diaryExists.value = true;
   } catch (err) {
-    console.err("Failed to add to db", err);
+    console.error("Failed to add to db", err);
   }
 }
 
@@ -122,7 +122,7 @@ async function getUserDiary() {
       ...result.dateAndTimes
     );
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 }
 </script>
