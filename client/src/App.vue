@@ -12,9 +12,9 @@ const isAuthenticated = computed(() => {
   return store.getters.isAuthenticated;
 });
 
-function signOut() {
+async function signOut() {
   store.dispatch("signOut");
-  router.push("/");
+  await router.push("/");
   window.location.reload();
 }
 </script>
