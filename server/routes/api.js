@@ -71,20 +71,19 @@ router.get("/foodlogs/:username", async (req, res) => {
 
 router.post("/foodlogs/:username", async (req, res) => {
   const { username } = req.params;
-  const { mealType, meal } = req.body; // mealType can be 'breakfast', 'lunch', 'dinner', or 'snack'
-
+  const { mealType, food } = req.body; // mealType can be 'breakfast', 'lunch', 'dinner', or 'snack'
   try {
     let userFoodLog = await FoodLogs.findOne({ username: username });
 
     if (userFoodLog) {
       // Add the meal to the existing food log
       userFoodLog[mealType] = userFoodLog[mealType] || [];
-      userFoodLog[mealType].push(meal);
+      userFoodLog[mealType].push(food);
     } else {
       // Create a new food log
       userFoodLog = new FoodLogs({
         username: username,
-        [mealType]: [meal],
+        [mealType]: [food],
       });
     }
 

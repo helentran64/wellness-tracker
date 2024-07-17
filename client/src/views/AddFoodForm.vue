@@ -107,13 +107,14 @@
               ></v-btn>
             </div>
           </td>
-          <td></td>
         </tr>
       </tbody>
     </v-table>
   </div>
   <div class="buttonContainer" v-if="Object.keys(foodInformation).length">
-    <v-btn color="green" class="lowerCaseBtn">Add To Food Log</v-btn>
+    <v-btn color="green" class="lowerCaseBtn" @click="addFoodToDB"
+      >Add To Food Log</v-btn
+    >
   </div>
 </template>
 <script setup>
@@ -126,12 +127,14 @@ import {
 } from "vuetify/lib/components/index.mjs";
 import { onMounted, reactive, ref } from "vue";
 import { useStore } from "vuex";
-import { getFoodLog, insertToFoodLog } from "@/services/foodLogsService";
+import { insertToFoodLog } from "@/services/foodLogsService";
 import { searchFood, getFoodDetails } from "@/api/foodApi";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]; // For the drop down menu
 const meal = ref(""); // The current meal the user entered
 const foodInputName = ref(""); // Name of the food the user entered
-const selectedFoodName = ref("");
+const selectedFoodName = ref(""); // Selected from the checkbox
 const listOfFoods = reactive([]); // list of foods to display for user to choose from
 const foodInformation = reactive({});
 const originalFoodInformation = reactive({});
@@ -164,9 +167,6 @@ async function getFood() {
   if (meal.value.length) {
     const foodList = await searchFood(foodInputName.value);
     listOfFoods.splice(0, listOfFoods.length, ...foodList);
-    // Clear the input values
-    foodInputName.value = "";
-    meal.value = "";
     // Clear the previous foodInformation object if exists
     if (Object.keys(foodInformation).length) {
       for (let key of Object.keys(foodInformation)) {
@@ -228,6 +228,24 @@ function addQuantity() {
       foodInformation[key] =
         foodInformation[key] + originalFoodInformation[key];
     }
+  }
+}
+
+/**
+ * Add food to the database
+ */
+async function addFoodToDB() {
+  const food = {};
+  for (let [key, value] of Object.entries(foodInformation)) {
+    food[key] = value;
+  }
+  try {
+    if (Object.keys(food).length) {
+      await insertToFoodLog(username.value, meal.value, food);
+      router.push({ name: "Food Log" });
+    }
+  } catch (err) {
+    console.error("Failed to add to db", err);
   }
 }
 </script>
