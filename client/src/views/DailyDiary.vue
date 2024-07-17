@@ -121,8 +121,8 @@ async function getUserDiary() {
       diaryData.dateAndTimes,
       ...result.dateAndTimes
     );
-  } catch (err) {
-    console.error(err);
+  } catch {
+    console.log(`${username.value} does not have a diary yet`);
   }
 }
 </script>
