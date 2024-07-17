@@ -1,144 +1,164 @@
 <template>
-  <div class="foodInput">
-    <p class="infoHeadings">What did you eat today? Enter the food code</p>
-    <v-text-field v-model="foodCode"></v-text-field>
-    <p class="infoHeadings">Was it for breakfast, lunch, dinner, or a snack?</p>
-    <v-select v-model="meal" :items="meals"></v-select>
-    <v-btn style="width: 600px" color="primary" @click="getFood(foodCode)"
-      >submit</v-btn
-    >
+  <div class="foodLogTable" v-for="section in foodLogSections" :key="section">
+    <h3>{{ section.charAt(0).toUpperCase() + section.slice(1) }}</h3>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Carbs</th>
+          <th>Protein</th>
+          <th>Fats</th>
+          <th>Sodium</th>
+          <th>Sugar</th>
+          <th>Serving Weight (g)</th>
+          <th>Serving Unit</th>
+          <th>Serving Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="foodInfo in foodLog[section]" :key="foodInfo">
+          <td>{{ foodInfo.name }}</td>
+          <td>{{ foodInfo.calories.toFixed(2) }}</td>
+          <td>{{ foodInfo.carbs.toFixed(2) }}</td>
+          <td>{{ foodInfo.protein.toFixed(2) }}</td>
+          <td>{{ foodInfo.fat.toFixed(2) }}</td>
+          <td>{{ foodInfo.sodium.toFixed(2) }}</td>
+          <td>{{ foodInfo.sugar.toFixed(2) }}</td>
+          <td>{{ foodInfo.servingWeight.toFixed(2) }}</td>
+          <td>{{ foodInfo.servingUnit }}</td>
+          <td>{{ foodInfo.servingQuantity }}</td>
+        </tr>
+      </tbody>
+    </v-table>
   </div>
-  <div class="foodLog">
-    <v-card v-if="breakfast.length" class="mealCards">
-      <v-card-item>
-        <div class="mealFont">Breakfast</div>
-        <div v-for="(food, i) in breakfast" :key="i">{{ food }}</div>
-      </v-card-item>
-    </v-card>
-    <v-card v-if="lunch.length" class="mealCards">
-      <v-card-item>
-        <div class="mealFont">Lunch</div>
-        <div v-for="(food, i) in lunch" :key="i">{{ food }}</div>
-      </v-card-item>
-    </v-card>
-    <v-card v-if="dinner.length" class="mealCards">
-      <v-card-item>
-        <div class="mealFont">Dinner</div>
-        <div v-for="(food, i) in dinner" :key="i">{{ food }}</div>
-      </v-card-item>
-    </v-card>
-    <v-card v-if="snack.length" class="mealCards">
-      <v-card-item>
-        <div class="mealFont">Snack</div>
-        <div v-for="(food, i) in snack" :key="i">{{ food }}</div>
-      </v-card-item>
-    </v-card>
+
+  <div class="foodLogTable">
+    <h3>Total</h3>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Nutrients</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="[key, total] in Object.entries(nutrients)" :key="key">
+          <td>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</td>
+          <td>{{ formatTotal(total) }}</td>
+        </tr>
+      </tbody>
+    </v-table>
+  </div>
+  <div class="buttonContainer">
+    <v-btn
+      @click="openAddFoodForm"
+      class="lowerCaseBtn"
+      color="green"
+      width="400px"
+      >Add Food</v-btn
+    >
   </div>
 </template>
 <script setup>
-import {
-  VTextField,
-  VBtn,
-  VSelect,
-  VCard,
-  VCardItem,
-} from "vuetify/lib/components/index.mjs";
-import { onMounted, reactive, ref } from "vue";
-import axios from "axios";
+import { VBtn, VTable } from "vuetify/lib/components/index.mjs";
+import { useRouter } from "vue-router";
+import { ref, reactive, onMounted } from "vue";
+import { getFoodLog } from "@/services/foodLogsService";
 import { useStore } from "vuex";
-import { getFoodLog, insertToFoodLog } from "@/services/foodLogsService";
-const meals = ["Breakfast", "Lunch", "Dinner", "Snack"]; // For the drop down menu
-const meal = ref(""); // The current meal the user entered
-const foodCode = ref("");
-const foodDescription = ref("");
+const router = useRouter();
 const foodLogExists = ref(false);
-const breakfast = reactive([]);
-const lunch = reactive([]);
-const dinner = reactive([]);
-const snack = reactive([]);
+const foodLog = reactive({});
+const foodLogSections = ["breakfast", "lunch", "dinner", "snack"];
 const store = useStore();
 const user = ref("");
 const username = ref("");
+const calories = ref(0);
+const carbs = ref(0);
+const protein = ref(0);
+const fat = ref(0);
+const sodium = ref(0);
+const sugar = ref(0);
+
+const nutrients = {
+  calories,
+  carbs,
+  protein,
+  fat,
+  sodium,
+  sugar,
+};
 
 onMounted(async () => {
   // When the page loads, get the user information
   user.value = store.getters.getUser;
   username.value = user.value.username;
-
-  // Load the food log if the user has one
   try {
-    await fetchFromDataBase(username.value);
-    foodLogExists.value = true;
+    // Load the user's food log
+    const res = await getFoodLog(username.value);
+    if (res) {
+      foodLogExists.value = true;
+      for (let [key, value] of Object.entries(res)) {
+        foodLog[key] = value;
+      }
+      calcTotalNutrients();
+    }
   } catch {
-    foodLogExists.value = false;
+    console.error("You do not have any items in your food log");
   }
 });
 
-async function getFood(foodId) {
-  try {
-    const id = foodId;
-    const baseurl = "https://food-nutrition.canada.ca";
-    const url = `${baseurl}/api/canadian-nutrient-file/food/?lang=en&id=${id}`;
+/**
+ * Converts the number into 2 decimal places and returns it
+ */
+function formatTotal(total) {
+  return total.value.toFixed(2);
+}
 
-    const response = await axios.get(url, {
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    const data = response.data;
-    foodDescription.value = data[0].food_description;
+/**
+ * Changes route to AddFoodForm
+ */
+function openAddFoodForm() {
+  router.push({ name: "Add Food" });
+}
 
-    await recordToDataBase();
-    if (username.value) {
-      await fetchFromDataBase(username.value);
-      foodLogExists.value = true;
+/**
+ * Calculate the total nutrients 
+ */
+function calcTotalNutrients() {
+  if (foodLogExists.value) {
+    // Reset totals before recalculating
+    calories.value = 0;
+    carbs.value = 0;
+    protein.value = 0;
+    fat.value = 0;
+    sodium.value = 0;
+    sugar.value = 0;
+
+    for (let section of foodLogSections) {
+      for (let food of foodLog[section]) {
+        for (let i in nutrients) {
+          if (food[i]) {
+            nutrients[i].value += food[i];
+          }
+        }
+      }
     }
-  } catch (error) {
-    console.error("Error fetching food data:", error);
   }
-}
-
-async function recordToDataBase() {
-  try {
-    await insertToFoodLog(
-      username.value,
-      meal.value.toLowerCase(),
-      foodDescription.value
-    );
-    foodCode.value = "";
-    meal.value = "";
-  } catch (error) {
-    console.error("Error adding to database", error);
-  }
-}
-
-async function fetchFromDataBase(username) {
-  const foodlogResults = await getFoodLog(username);
-  breakfast.splice(0, breakfast.length, ...(foodlogResults.breakfast || []));
-  lunch.splice(0, lunch.length, ...(foodlogResults.lunch || []));
-  dinner.splice(0, dinner.length, ...(foodlogResults.dinner || []));
-  snack.splice(0, snack.length, ...(foodlogResults.snack || []));
 }
 </script>
-<style scoped>
-.foodInput {
-  width: 500px;
-  margin: 50px auto 50px auto;
+<style>
+.lowerCaseBtn {
+  text-transform: capitalize;
 }
-.foodLog {
-  width: 500px;
-  margin: 50px auto 50px auto;
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0 5px 0;
 }
-.infoHeadings {
-  font-size: 20px;
-  font-weight: 500;
-}
-.mealFont {
-  font-size: 20px;
-  font-weight: 500;
-}
-.mealCards {
-  margin-top: 10px;
-  margin-bottom: 10px;
+.foodLogTable {
+  margin: 20px auto 20px auto;
+  width: 1000px;
 }
 </style>

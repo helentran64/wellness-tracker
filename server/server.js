@@ -32,4 +32,4 @@ app.use(
 app.use(express.json());
 app.use("/api", require("./routes/api"));
 
-app.listen(PORT, () => console.log("App booted..."));
+app.listen(PORT, () => console.log("App booted on port 3000..."));

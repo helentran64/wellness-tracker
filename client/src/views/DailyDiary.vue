@@ -87,6 +87,9 @@ function generateDateAndTime() {
   dateAndTime.value = currentdateAndTime;
 }
 
+/**
+ * Inserts the diary entry into the database
+ */
 async function insertNotesToDB() {
   try {
     generateDateAndTime();
@@ -101,10 +104,13 @@ async function insertNotesToDB() {
     await getUserDiary(username.value);
     diaryExists.value = true;
   } catch (err) {
-    console.err("Failed to add to db", err);
+    console.error("Failed to add to db", err);
   }
 }
 
+/**
+ * Retrieves the user's diary from the database
+ */
 async function getUserDiary() {
   try {
     const result = await getDiary(username.value);
@@ -116,7 +122,7 @@ async function getUserDiary() {
       ...result.dateAndTimes
     );
   } catch (err) {
-    console.err(err);
+    console.error(err);
   }
 }
 </script>
