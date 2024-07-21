@@ -14,11 +14,25 @@ export async function insertToFoodLog(username, mealType, food, date) {
     const data = {
       mealType: mealType.toLowerCase(),
       food,
-      date
+      date,
     };
     const response = await api.post(`/foodlogs/${username}`, data);
     return response.data;
   } catch (err) {
     console.error("Error inserting to food log", err);
+  }
+}
+
+export async function deleteFoodEntry(username, mealType, foodEntry, date) {
+  try {
+    const data = {
+      mealType,
+      foodEntry,
+      date,
+    };
+    const response = await api.delete(`/foodlogs/${username}`, { data });
+    return response.data;
+  } catch (err) {
+    console.error("Error deleting selected food entry", err);
   }
 }

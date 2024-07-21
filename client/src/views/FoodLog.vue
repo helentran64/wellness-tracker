@@ -58,6 +58,13 @@
             <td>{{ foodInfo.servingWeight.toFixed(2) }}</td>
             <td>{{ foodInfo.servingUnit }}</td>
             <td>{{ foodInfo.servingQuantity }}</td>
+            <v-btn
+              icon="mdi-minus"
+              color="red"
+              size="x-small"
+              @click="deleteFood(foodInfo, section)"
+              class="removeFoodButton"
+            ></v-btn>
           </tr>
         </tbody>
       </v-table>
@@ -86,7 +93,7 @@
 import { VBtn, VTable } from "vuetify/lib/components/index.mjs";
 import { useRouter } from "vue-router";
 import { ref, reactive, onMounted } from "vue";
-import { getFoodLog } from "@/services/foodLogsService";
+import { getFoodLog, deleteFoodEntry } from "@/services/foodLogsService";
 import { useStore } from "vuex";
 
 const router = useRouter();
@@ -116,11 +123,18 @@ const nutrients = {
 };
 
 onMounted(async () => {
-  // Check if the user has added to their food log today. If not, set a blank page
-  let enteredTodaysFood = false;
   // When the page loads, get the user information
   user.value = store.getters.getUser;
   username.value = user.value.username;
+  getFoodLogAndDisplayResults();
+});
+
+/**
+ * Get food log from database and save the results. If successful, display and calculate the results
+ */
+async function getFoodLogAndDisplayResults(){
+  // Check if the user has added to their food log today. If not, set a blank page
+  let enteredTodaysFood = false;
   getDate();
   try {
     // Load the user's food log
@@ -144,7 +158,7 @@ onMounted(async () => {
   } catch {
     console.error("You do not have any items in your food log");
   }
-});
+}
 
 /**
  * Display the current food log
@@ -232,6 +246,25 @@ function getNextFoodLog() {
     }
   }
 }
+
+/**
+ * Delete the selected food from the user's food log
+ */
+async function deleteFood(foodEntry, mealType) {
+  try {
+    const res = await deleteFoodEntry(
+      username.value,
+      mealType,
+      foodEntry,
+      date.value
+    );
+    if (res) {
+      getFoodLogAndDisplayResults();
+    }
+  } catch {
+    console.error("Failed to delete food entry");
+  }
+}
 </script>
 <style>
 .lowerCaseBtn {
@@ -269,5 +302,8 @@ function getNextFoodLog() {
 .foodLogTable {
   margin: 20px auto;
   width: 1000px;
+}
+.removeFoodButton {
+  margin-top: 10px;
 }
 </style>

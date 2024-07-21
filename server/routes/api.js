@@ -110,6 +110,46 @@ router.post("/foodlogs/:username", async (req, res) => {
   }
 });
 
+router.delete("/foodlogs/:username", async (req, res) => {
+  const { username } = req.params;
+  const { mealType, foodEntry, date } = req.body;
+
+  try {
+    let userFoodLog = await FoodLogs.findOne({ username });
+
+    if (!userFoodLog) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const selectedFoodEntry = userFoodLog.logs.get(date);
+    if (!selectedFoodEntry) {
+      return res
+        .status(404)
+        .json({ message: "No logs found for the specified date" });
+    }
+
+    const foodIndex = selectedFoodEntry[mealType].findIndex(
+      (food) => food.name === foodEntry.name
+    );
+    if (foodIndex === -1) {
+      return res
+        .status(404)
+        .json({ message: "Food item not found in the specified meal type" });
+    }
+
+    selectedFoodEntry[mealType].splice(foodIndex, 1);
+
+    userFoodLog.logs.set(date, selectedFoodEntry);
+    await userFoodLog.save();
+
+    res.json({ message: "Food item removed successfully" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: `Error deleting food item: ${err.message}` });
+  }
+});
+
 router.get("/diaries", async (req, res) => {
   try {
     const diaries = await Diaries.find();
