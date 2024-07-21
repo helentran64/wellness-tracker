@@ -15,7 +15,9 @@
         <v-btn class="greetingBtn lowerCaseBtn" @click="scrollToSection"
           >Learn More</v-btn
         >
-        <v-btn v-show="!loggedIn" class="greetingBtn lowerCaseBtn" to="/login">Get Started</v-btn>
+        <v-btn v-show="!loggedIn" class="greetingBtn lowerCaseBtn" to="/login"
+          >Get Started</v-btn
+        >
       </div>
       <div class="greetingImage">
         <img
@@ -34,7 +36,7 @@
       </p>
     </div>
 
-    <FoodLogPreview />
+    <FoodLogPreview @click="goToFoodLogPage" />
     <div class="previewContext">
       <p class="pagesSubheading"><i class="fa-solid fa-book"></i> Diary</p>
       <p class="pageDescription">
@@ -42,7 +44,7 @@
         positivity
       </p>
     </div>
-    <DailyPreview />
+    <DailyPreview @click="goToDiaryPage" />
   </div>
 </template>
 
@@ -52,9 +54,11 @@ import FoodLogPreview from "@/components/FoodLogPreview.vue";
 import { VBtn } from "vuetify/components";
 import { onMounted, ref } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 const store = useStore();
 const targetSection = ref(null);
 const loggedIn = ref(false);
+const router = useRouter();
 
 onMounted(() => {
   try {
@@ -74,6 +78,18 @@ function scrollToSection() {
       behavior: "smooth",
     });
   }
+}
+
+function goToFoodLogPage() {
+  router.push({ name: "Food Log" }).then(() => {
+    window.scrollTo(0, 0);
+  });
+}
+
+function goToDiaryPage() {
+  router.push({ name: "Daily Diary" }).then(() => {
+    window.scrollTo(0, 0);
+  });
 }
 </script>
 
