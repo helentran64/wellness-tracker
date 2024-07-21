@@ -71,19 +71,35 @@ router.get("/foodlogs/:username", async (req, res) => {
 
 router.post("/foodlogs/:username", async (req, res) => {
   const { username } = req.params;
-  const { mealType, food } = req.body; // mealType can be 'breakfast', 'lunch', 'dinner', or 'snack'
+  const { mealType, food, date } = req.body; // mealType can be 'breakfast', 'lunch', 'dinner', or 'snack'
+
   try {
+    // Find the user's food log
     let userFoodLog = await FoodLogs.findOne({ username: username });
 
     if (userFoodLog) {
-      // Add the meal to the existing food log
-      userFoodLog[mealType] = userFoodLog[mealType] || [];
-      userFoodLog[mealType].push(food);
+      // If the food log exists, update the appropriate date and meal type
+      if (!userFoodLog.logs.has(date)) {
+        userFoodLog.logs.set(date, {
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snack: [],
+        });
+      }
+      userFoodLog.logs.get(date)[mealType].push(food);
     } else {
-      // Create a new food log
+      // If the food log does not exist, create a new one
       userFoodLog = new FoodLogs({
         username: username,
-        [mealType]: [food],
+        logs: {
+          [date]: {
+            breakfast: mealType === "breakfast" ? [food] : [],
+            lunch: mealType === "lunch" ? [food] : [],
+            dinner: mealType === "dinner" ? [food] : [],
+            snack: mealType === "snack" ? [food] : [],
+          },
+        },
       });
     }
 
@@ -91,6 +107,47 @@ router.post("/foodlogs/:username", async (req, res) => {
     res.json(userFoodLog);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete("/foodlogs/:username", async (req, res) => {
+  const { username } = req.params;
+  const { mealType, foodEntry, date } = req.body;
+
+  try {
+    let userFoodLog = await FoodLogs.findOne({ username });
+
+    if (!userFoodLog) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const selectedFoodEntry = userFoodLog.logs.get(date);
+    if (!selectedFoodEntry) {
+      return res
+        .status(404)
+        .json({ message: "No logs found for the specified date" });
+    }
+
+    const foodIndex = selectedFoodEntry[mealType].findIndex(
+      (food) =>
+        food.name === foodEntry.name && food.calories === foodEntry.calories
+    );
+    if (foodIndex === -1) {
+      return res
+        .status(404)
+        .json({ message: "Food item not found in the specified meal type" });
+    }
+
+    selectedFoodEntry[mealType].splice(foodIndex, 1);
+
+    userFoodLog.logs.set(date, selectedFoodEntry);
+    await userFoodLog.save();
+
+    res.json({ message: "Food item removed successfully" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: `Error deleting food item: ${err.message}` });
   }
 });
 
