@@ -129,7 +129,8 @@ router.delete("/foodlogs/:username", async (req, res) => {
     }
 
     const foodIndex = selectedFoodEntry[mealType].findIndex(
-      (food) => food.name === foodEntry.name
+      (food) =>
+        food.name === foodEntry.name && food.calories === foodEntry.calories
     );
     if (foodIndex === -1) {
       return res

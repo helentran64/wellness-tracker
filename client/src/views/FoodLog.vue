@@ -132,7 +132,7 @@ onMounted(async () => {
 /**
  * Get food log from database and save the results. If successful, display and calculate the results
  */
-async function getFoodLogAndDisplayResults(){
+async function getFoodLogAndDisplayResults() {
   // Check if the user has added to their food log today. If not, set a blank page
   let enteredTodaysFood = false;
   getDate();
