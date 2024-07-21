@@ -9,11 +9,12 @@ export async function getFoodLog(username) {
   }
 }
 
-export async function insertToFoodLog(username, mealType, food) {
+export async function insertToFoodLog(username, mealType, food, date) {
   try {
     const data = {
       mealType: mealType.toLowerCase(),
-      food
+      food,
+      date
     };
     const response = await api.post(`/foodlogs/${username}`, data);
     return response.data;

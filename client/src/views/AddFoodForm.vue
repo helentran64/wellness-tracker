@@ -232,16 +232,27 @@ function addQuantity() {
 }
 
 /**
+ * Returns the current date
+ */
+function getDate() {
+  const currentDate = new Date();
+  const format = { year: "numeric", month: "short", day: "numeric" };
+  const formattedDate = currentDate.toLocaleDateString("en-CA", format);
+  return formattedDate;
+}
+
+/**
  * Add food to the database
  */
 async function addFoodToDB() {
+  const date = getDate();
   const food = {};
   for (let [key, value] of Object.entries(foodInformation)) {
     food[key] = value;
   }
   try {
     if (Object.keys(food).length) {
-      await insertToFoodLog(username.value, meal.value, food);
+      await insertToFoodLog(username.value, meal.value, food, date);
       router.push({ name: "Food Log" });
     }
   } catch (err) {
