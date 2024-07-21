@@ -85,7 +85,7 @@
 <script setup>
 import { VBtn, VTable } from "vuetify/lib/components/index.mjs";
 import { useRouter } from "vue-router";
-import { ref, reactive, onMounted, computed } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { getFoodLog } from "@/services/foodLogsService";
 import { useStore } from "vuex";
 
@@ -116,6 +116,8 @@ const nutrients = {
 };
 
 onMounted(async () => {
+  // Check if the user has added to their food log today. If not, set a blank page
+  let enteredTodaysFood = false;
   // When the page loads, get the user information
   user.value = store.getters.getUser;
   username.value = user.value.username;
@@ -130,10 +132,14 @@ onMounted(async () => {
       Object.entries(res.logs).forEach((entry, index) => {
         if (date.value === entry[0]) {
           currentFoodLogIndex.value = index;
+          enteredTodaysFood = true;
         }
       });
-      displayCurrentFoodLog(currentFoodLogIndex.value);
-      calcTotalNutrients();
+      // If food was entered for today, then display and calculate the nutrients of the food
+      if (enteredTodaysFood) {
+        displayCurrentFoodLog(currentFoodLogIndex.value);
+        calcTotalNutrients();
+      }
     }
   } catch {
     console.error("You do not have any items in your food log");
@@ -215,13 +221,15 @@ function getPreviousFoodLog() {
  * Go to the next food log
  */
 function getNextFoodLog() {
-  if (
-    currentFoodLogIndex.value <
-    Object.entries(foodLogsResult[0].logs).length - 1
-  ) {
-    currentFoodLogIndex.value += 1;
-    displayCurrentFoodLog(currentFoodLogIndex.value);
-    calcTotalNutrients();
+  if (foodLogsResult.length) {
+    if (
+      currentFoodLogIndex.value <
+      Object.entries(foodLogsResult[0].logs).length - 1
+    ) {
+      currentFoodLogIndex.value += 1;
+      displayCurrentFoodLog(currentFoodLogIndex.value);
+      calcTotalNutrients();
+    }
   }
 }
 </script>
