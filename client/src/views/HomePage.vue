@@ -29,22 +29,27 @@
     </div>
   </div>
   <div class="previews" ref="targetSection">
-    <div class="previewContext">
-      <p class="pagesSubheading"><i class="fa-solid fa-pencil"></i> Food Log</p>
-      <p class="pageDescription">
-        Your personal guide to delicious choices and mindful eating habits
-      </p>
+    <div class="previewSection">
+      <FoodLogPreview @click="goToFoodLogPage" />
+      <div class="previewContext">
+        <p class="pagesSubheading">
+          <i class="fa-solid fa-pencil"></i> Food Log
+        </p>
+        <p class="pageDescription">
+          Your personal guide to delicious choices and mindful eating habits
+        </p>
+      </div>
     </div>
-
-    <FoodLogPreview @click="goToFoodLogPage" />
-    <div class="previewContext">
-      <p class="pagesSubheading"><i class="fa-solid fa-book"></i> Diary</p>
-      <p class="pageDescription">
-        For reflection and personal growth, helping you navigate life with
-        positivity
-      </p>
+    <div class="previewSection">
+      <div class="previewContext">
+        <p class="pagesSubheading"><i class="fa-solid fa-book"></i> Diary</p>
+        <p class="pageDescription">
+          For reflection and personal growth, helping you navigate life with
+          positivity
+        </p>
+      </div>
+      <DailyPreview @click="goToDiaryPage" />
     </div>
-    <DailyPreview @click="goToDiaryPage" />
   </div>
 </template>
 
@@ -153,6 +158,13 @@ function goToDiaryPage() {
 }
 .previewContext {
   margin: 40px 0 40px 0;
+}
+.previewSection {
+  margin: 40px 0 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 .fa-bolt {
   color: #65ccff;

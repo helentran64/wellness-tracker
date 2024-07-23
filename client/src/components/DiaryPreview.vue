@@ -1,5 +1,5 @@
 <template>
-  <div class="diary">
+  <div>
     <img
       class="diaryPreviewImage"
       src="../../src/assets/images/sittingUnderTree.png"
@@ -7,13 +7,8 @@
     />
   </div>
 </template>
-<script></script>
 <style scoped>
-.diaryPreviewImage{
+.diaryPreviewImage {
   width: 400px;
-}
-.diary {
-  margin-left: auto;
-  margin-right: auto;
 }
 </style>
