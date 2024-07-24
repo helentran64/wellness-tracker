@@ -3,3 +3,41 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #f7f7f7;
 }
+/* For the food log and diary preview components */
+.previewSection {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+.previewSection.visible {
+  opacity: 1;
+}
+.previewContext {
+  margin: 40px 0;
+}
+.pageDescription {
+  font-size: 20px;
+}
+.pagesSubheading {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+/* For pages that uses buttons that need to me formatted */
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0 5px 0;
+}
+
+/* For the login and sign up page that uses a link to redirect users */
+.router-link-item {
+  text-decoration: none;
+  color: blue;
+  border-radius: 4px;
+}

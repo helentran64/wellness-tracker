@@ -44,21 +44,21 @@ async function signOut() {
             <v-btn
               v-if="isAuthenticated"
               color="primary"
-              class="mr-2 lowerCaseBtn"
+              class="mr-2 capitalizeButton"
               @click="signOut"
               >Sign Out</v-btn
             >
             <v-btn
               v-if="!isAuthenticated"
               color="primary"
-              class="mr-2 lowerCaseBtn"
+              class="mr-2 capitalizeButton"
               to="/sign-up"
               >Sign up</v-btn
             >
             <v-btn
               v-if="!isAuthenticated"
               color="primary"
-              class="mr-2 lowerCaseBtn"
+              class="mr-2 capitalizeButton"
               to="/login"
               >Log in</v-btn
             >
@@ -98,13 +98,13 @@ async function signOut() {
 .navItems .router-link-item:hover {
   color: #0074af;
 }
-.lowerCaseBtn {
-  text-transform: capitalize;
-}
 .logo {
   font-size: 20px;
 }
 .fa-carrot {
   margin: 5px;
+}
+.capitalizeButton {
+  text-transform: capitalize;
 }
 </style>

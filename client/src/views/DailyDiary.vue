@@ -11,7 +11,7 @@
     <v-textarea v-model="note" label="Notes" counter></v-textarea>
     <v-btn
       style="width: 800px"
-      class="lowerCaseBtn"
+      class="capitalizeButton"
       color="primary"
       @click="insertNotesToDB"
       >submit</v-btn
@@ -140,7 +140,7 @@ h3 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
 }
 .inputField {

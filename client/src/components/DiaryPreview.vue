@@ -43,30 +43,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.previewSection {
-  margin: 40px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-.previewSection.visible {
-  opacity: 1;
-}
 .diaryPreviewImage {
   width: 400px;
   transition: opacity 1s ease-in-out;
-}
-.previewContext {
-  margin: 40px 0;
-}
-.pageDescription {
-  font-size: 20px;
-}
-.pagesSubheading {
-  font-size: 40px;
-  font-weight: 600;
 }
 </style>
