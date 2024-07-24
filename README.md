@@ -12,3 +12,12 @@ npm install
 npm run dev
 ```
 
+## Run server
+```sh
+npm run start
+```
+
+## Run client side
+```sh
+npm run dev
+```
