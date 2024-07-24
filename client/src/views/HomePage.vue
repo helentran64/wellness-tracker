@@ -13,12 +13,15 @@
           </p></span
         >
         <v-btn
-          class="greetingBtn lowerCaseBtn"
+          class="greetingBtn capitalizeButton"
           @click="scrollToSection"
           color="primary"
           >Learn More</v-btn
         >
-        <v-btn v-show="!loggedIn" class="greetingBtn lowerCaseBtn" to="/login"
+        <v-btn
+          v-show="!loggedIn"
+          class="greetingBtn capitalizeButton"
+          to="/login"
           >Get Started</v-btn
         >
       </div>
@@ -143,7 +146,7 @@ function goToDiaryPage() {
 .fa-bolt {
   color: #65ccff;
 }
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
 }
 </style>

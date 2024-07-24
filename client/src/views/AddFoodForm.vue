@@ -56,7 +56,7 @@
     class="buttonContainer"
     v-if="listOfFoods.length && selectedFoodName.length"
   >
-    <v-btn color="green" @click="getSelectedFoodInfo" class="lowerCaseBtn"
+    <v-btn color="green" @click="getSelectedFoodInfo" class="capitalizeButton"
       >Select</v-btn
     >
   </div>
@@ -115,7 +115,7 @@
     </v-table>
   </div>
   <div class="buttonContainer" v-if="Object.keys(foodInformation).length">
-    <v-btn color="green" class="lowerCaseBtn" @click="addFoodToDB"
+    <v-btn color="green" class="capitalizeButton" @click="addFoodToDB"
       >Add To Food Log</v-btn
     >
   </div>
@@ -296,13 +296,7 @@ async function addFoodToDB() {
 .submitButton {
   margin-top: 20px;
 }
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px 0 5px 0;
-}
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
 }
 .foodTable {

@@ -20,7 +20,7 @@
     </div>
     <div class="buttonContainer">
       <v-btn
-        class="lowerCaseBtn"
+        class="capitalizeButton"
         color="primary"
         style="width: 400px"
         @click="logUserIn"
@@ -86,23 +86,12 @@ h1 {
 .loginFormInput {
   margin-top: 15px;
 }
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px 0 15px 0;
-}
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
 }
 .noAccount {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.router-link-item {
-  text-decoration: none;
-  color: blue;
-  border-radius: 4px;
 }
 </style>

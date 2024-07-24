@@ -2,7 +2,7 @@
   <div class="buttonContainer">
     <v-btn
       @click="openAddFoodForm"
-      class="lowerCaseBtn"
+      class="capitalizeButton"
       color="green"
       width="400px"
       >Add Food</v-btn
@@ -267,14 +267,8 @@ async function deleteFood(foodEntry, mealType) {
 }
 </script>
 <style>
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
-}
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px 0 5px 0;
 }
 .dateContainer {
   display: flex;

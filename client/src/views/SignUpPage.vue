@@ -35,7 +35,7 @@
       ></v-text-field>
       <div class="buttonContainer">
         <v-btn
-          class="lowerCaseBtn"
+          class="capitalizeButton"
           color="primary"
           style="width: 400px"
           @click="addUser"
@@ -110,23 +110,12 @@ h1 {
 .signupFormInput {
   margin-top: 15px;
 }
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
-}
-.buttonContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 5px 0 15px 0;
 }
 .hasAccount {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.router-link-item {
-  text-decoration: none;
-  color: blue;
-  border-radius: 4px;
 }
 </style>
