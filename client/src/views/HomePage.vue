@@ -12,10 +12,16 @@
             <span style="font-weight: 600">Healthier Life</span> Starts Here
           </p></span
         >
-        <v-btn class="greetingBtn lowerCaseBtn" @click="scrollToSection"
+        <v-btn
+          class="greetingBtn capitalizeButton"
+          @click="scrollToSection"
+          color="primary"
           >Learn More</v-btn
         >
-        <v-btn v-show="!loggedIn" class="greetingBtn lowerCaseBtn" to="/login"
+        <v-btn
+          v-show="!loggedIn"
+          class="greetingBtn capitalizeButton"
+          to="/login"
           >Get Started</v-btn
         >
       </div>
@@ -28,22 +34,8 @@
       </div>
     </div>
   </div>
-  <div class="previews" ref="targetSection">
-    <div class="previewContext">
-      <p class="pagesSubheading"><i class="fa-solid fa-pencil"></i> Food Log</p>
-      <p class="pageDescription">
-        Your personal guide to delicious choices and mindful eating habits
-      </p>
-    </div>
-
+  <div class="previews">
     <FoodLogPreview @click="goToFoodLogPage" />
-    <div class="previewContext">
-      <p class="pagesSubheading"><i class="fa-solid fa-book"></i> Diary</p>
-      <p class="pageDescription">
-        For reflection and personal growth, helping you navigate life with
-        positivity
-      </p>
-    </div>
     <DailyPreview @click="goToDiaryPage" />
   </div>
 </template>
@@ -151,21 +143,10 @@ function goToDiaryPage() {
   margin-left: auto;
   margin-right: auto;
 }
-.previewContext {
-  margin: 40px 0 40px 0;
-}
 .fa-bolt {
   color: #65ccff;
 }
-.lowerCaseBtn {
+.capitalizeButton {
   text-transform: capitalize;
-}
-.pagesSubheading {
-  font-size: 30px;
-  font-weight: 600;
-}
-.pageDescription {
-  font-size: 20px;
-  margin-left: 35px;
 }
 </style>

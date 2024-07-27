@@ -6,9 +6,12 @@
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+## Run server
+```sh
+npm run start
+```
 
+## Run client side
 ```sh
 npm run dev
 ```
-
