@@ -23,6 +23,20 @@ export async function insertToFoodLog(username, mealType, food, date) {
   }
 }
 
+export async function insertTodaysFoodLog(username, date) {
+  try {
+    const data = {
+      mealType: "", // Empty string for mealType
+      food: "", // Empty string for food
+      date,
+    };
+    const response = await api.post(`/foodlogs/${username}`, data);
+    return response.data;
+  } catch (err) {
+    console.error("Error inserting to food log", err);
+  }
+}
+
 export async function deleteFoodEntry(username, mealType, foodEntry, date) {
   try {
     const data = {
