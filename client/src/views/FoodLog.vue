@@ -153,6 +153,8 @@ async function getFoodLogAndDisplayResults() {
       if (enteredTodaysFood) {
         displayCurrentFoodLog(currentFoodLogIndex.value);
         calcTotalNutrients();
+      } else {
+        currentFoodLogIndex.value = Object.keys(res.logs).length;
       }
     }
   } catch {
