@@ -93,7 +93,11 @@
 import { VBtn, VTable } from "vuetify/lib/components/index.mjs";
 import { useRouter } from "vue-router";
 import { ref, reactive, onMounted } from "vue";
-import { getFoodLog, deleteFoodEntry } from "@/services/foodLogsService";
+import {
+  getFoodLog,
+  deleteFoodEntry,
+  insertTodaysFoodLog,
+} from "@/services/foodLogsService";
 import { useStore } from "vuex";
 
 const router = useRouter();
@@ -153,6 +157,9 @@ async function getFoodLogAndDisplayResults() {
       if (enteredTodaysFood) {
         displayCurrentFoodLog(currentFoodLogIndex.value);
         calcTotalNutrients();
+      } else {
+        await insertTodaysFoodLog(username.value, date.value);
+        getFoodLogAndDisplayResults();
       }
     }
   } catch {

@@ -78,7 +78,7 @@ router.post("/foodlogs/:username", async (req, res) => {
     let userFoodLog = await FoodLogs.findOne({ username: username });
 
     if (userFoodLog) {
-      // If the food log exists, update the appropriate date and meal type
+      // If the food log exists, update the appropriate log
       if (!userFoodLog.logs.has(date)) {
         userFoodLog.logs.set(date, {
           breakfast: [],
@@ -86,8 +86,9 @@ router.post("/foodlogs/:username", async (req, res) => {
           dinner: [],
           snack: [],
         });
+      } else if (userFoodLog.logs.has(date)) {
+        userFoodLog.logs.get(date)[mealType].push(food);
       }
-      userFoodLog.logs.get(date)[mealType].push(food);
     } else {
       // If the food log does not exist, create a new one
       userFoodLog = new FoodLogs({
