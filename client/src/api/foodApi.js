@@ -1,3 +1,7 @@
+/*
+Uses Nutritionix API 
+*/
+
 const appId = import.meta.env.VITE_APPID;
 const apiKey = import.meta.env.VITE_API_KEY;
 import axios from "axios";
