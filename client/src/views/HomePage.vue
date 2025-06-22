@@ -34,9 +34,9 @@
       </div>
     </div>
   </div>
-  <div class="previews">
-    <FoodLogPreview @click="goToFoodLogPage" />
-    <DailyPreview @click="goToDiaryPage" />
+  <div class="previewItems" ref="targetSection">
+    <FoodLogPreview class="previewItem" @click="goToFoodLogPage" />
+    <DailyPreview class="previewItem" @click="goToDiaryPage" />
   </div>
 </template>
 
@@ -138,10 +138,18 @@ function goToDiaryPage() {
   width: 573px;
   height: 317px;
 }
-.previews {
+.previewItems {
   width: 60%;
   margin-left: auto;
   margin-right: auto;
+}
+.previewItem {
+  border-radius: 20px;
+  box-shadow: 0 0 5px #cbcbcb;
+  padding: 20px;
+}
+.previewItem:hover {
+  cursor: pointer;
 }
 .fa-bolt {
   color: #65ccff;
