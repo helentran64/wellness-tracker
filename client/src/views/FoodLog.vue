@@ -290,7 +290,6 @@ async function deleteFood(foodEntry, mealType) {
   text-align: center;
 }
 .foodLogSlide {
-  background-color: white;
   padding: 30px 0;
   width: 1100px;
   margin: 20px auto;
