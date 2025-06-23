@@ -98,7 +98,6 @@ function goToDiaryPage() {
   font-size: 35px;
 }
 .greeting {
-  color: rgb(0, 0, 0);
   height: 100vh;
   width: 100vw;
   margin: 0;
