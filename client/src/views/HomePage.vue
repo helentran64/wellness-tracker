@@ -98,8 +98,7 @@ function goToDiaryPage() {
   font-size: 35px;
 }
 .greeting {
-  color: rgb(0, 0, 0);
-  height: 100vh;
+  height: 50vh;
   width: 100vw;
   margin: 0;
   font-size: 25px;
@@ -142,11 +141,29 @@ function goToDiaryPage() {
   width: 60%;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+@media (max-width: 1660px) {
+  .previewItems {
+    width: 80%;
+  }
+}
+@media (max-width: 1200px) {
+  .previewItems {
+    flex-direction: column;
+  }
 }
 .previewItem {
   border-radius: 20px;
-  box-shadow: 0 0 5px #cbcbcb;
+  box-shadow: 0 0 10px #aaaaaa;
   padding: 20px;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+
 }
 .previewItem:hover {
   cursor: pointer;
