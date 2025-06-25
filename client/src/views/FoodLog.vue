@@ -8,56 +8,60 @@
       >Add Food</v-btn
     >
   </div>
-  <div class="foodLogSlide">
-    <div class="dateContainer">
-      <div class="arrowButtons">
-        <v-btn
-          icon="mdi-arrow-left"
-          variant="text"
-          @click="getPreviousFoodLog"
-        ></v-btn>
-      </div>
-      <div>
-        <h2 class="currentDate">{{ date }}</h2>
-      </div>
-      <div class="arrowButtons">
-        <v-btn
-          icon="mdi-arrow-right"
-          variant="text"
-          @click="getNextFoodLog"
-        ></v-btn>
-      </div>
-    </div>
 
-    <div class="foodLogTable" v-for="section in foodLogSections" :key="section">
-      <h3>{{ section.charAt(0).toUpperCase() + section.slice(1) }}</h3>
-      <v-table>
-        <thead>
-          <tr>
-            <th>Food</th>
-            <th>Calories</th>
-            <th>Carbs</th>
-            <th>Protein</th>
-            <th>Fats</th>
-            <th>Sodium</th>
-            <th>Sugar</th>
-            <th>Serving Weight (g)</th>
-            <th>Serving Unit</th>
-            <th>Serving Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="foodInfo in foodLog[section]" :key="foodInfo">
-            <td>{{ foodInfo.name }}</td>
-            <td>{{ foodInfo.calories.toFixed(2) }}</td>
-            <td>{{ foodInfo.carbs.toFixed(2) }}</td>
-            <td>{{ foodInfo.protein.toFixed(2) }}</td>
-            <td>{{ foodInfo.fat.toFixed(2) }}</td>
-            <td>{{ foodInfo.sodium.toFixed(2) }}</td>
-            <td>{{ foodInfo.sugar.toFixed(2) }}</td>
-            <td>{{ foodInfo.servingWeight.toFixed(2) }}</td>
-            <td>{{ foodInfo.servingUnit }}</td>
-            <td>{{ foodInfo.servingQuantity }}</td>
+  <div class="dateContainer">
+    <div class="arrowButtons">
+      <v-btn
+        icon="mdi-arrow-left"
+        variant="text"
+        @click="getPreviousFoodLog"
+      ></v-btn>
+    </div>
+    <div>
+      <h2 class="currentDate">{{ date }}</h2>
+    </div>
+    <div class="arrowButtons">
+      <v-btn
+        icon="mdi-arrow-right"
+        variant="text"
+        @click="getNextFoodLog"
+      ></v-btn>
+    </div>
+  </div>
+
+  <div class="foodLogTable" v-for="section in foodLogSections" :key="section">
+    <h3>{{ section.charAt(0).toUpperCase() + section.slice(1) }}</h3>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Food</th>
+          <th>Calories</th>
+          <th>Carbs</th>
+          <th>Protein</th>
+          <th>Fats</th>
+          <th>Sodium</th>
+          <th>Sugar</th>
+          <th>Serving Weight (g)</th>
+          <th>Serving Unit</th>
+          <th>Serving Quantity</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="foodInfo in foodLog[section]" :key="foodInfo">
+          <td>{{ foodInfo.name }}</td>
+          <td>{{ foodInfo.calories.toFixed(2) }}</td>
+          <td>{{ foodInfo.carbs.toFixed(2) }}</td>
+          <td>{{ foodInfo.protein.toFixed(2) }}</td>
+          <td>{{ foodInfo.fat.toFixed(2) }}</td>
+          <td>{{ foodInfo.sodium.toFixed(2) }}</td>
+          <td>{{ foodInfo.sugar.toFixed(2) }}</td>
+          <td>{{ foodInfo.servingWeight.toFixed(2) }}</td>
+          <td>{{ foodInfo.servingUnit }}</td>
+          <td>{{ foodInfo.servingQuantity }}</td>
+          <td>{{ foodInfo.notes }}</td>
+          <td>
             <v-btn
               icon="mdi-minus"
               color="red"
@@ -65,28 +69,28 @@
               @click="deleteFood(foodInfo, section)"
               class="removeFoodButton"
             ></v-btn>
-          </tr>
-        </tbody>
-      </v-table>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+  </div>
 
-    <div class="foodLogTable">
-      <h3>Total</h3>
-      <v-table>
-        <thead>
-          <tr>
-            <th>Nutrients</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="[key, total] in Object.entries(nutrients)" :key="key">
-            <td>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</td>
-            <td>{{ formatTotal(total) }}</td>
-          </tr>
-        </tbody>
-      </v-table>
-    </div>
+  <div class="foodLogTable">
+    <h3>Total</h3>
+    <v-table>
+      <thead>
+        <tr>
+          <th>Nutrients</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="[key, total] in Object.entries(nutrients)" :key="key">
+          <td>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</td>
+          <td>{{ formatTotal(total) }}</td>
+        </tr>
+      </tbody>
+    </v-table>
   </div>
 </template>
 <script setup>
@@ -289,19 +293,12 @@ async function deleteFood(foodEntry, mealType) {
 .currentDate {
   text-align: center;
 }
-.foodLogSlide {
-  padding: 30px 0;
-  width: 1100px;
-  margin: 20px auto;
-  border-radius: 20px;
-  box-shadow: 0 0 3px #a9a9a9;
-}
 .arrowButtons {
   margin: 10px;
 }
 .foodLogTable {
   margin: 20px auto;
-  width: 1000px;
+  width: 80%;
 }
 .removeFoodButton {
   margin-top: 10px;
