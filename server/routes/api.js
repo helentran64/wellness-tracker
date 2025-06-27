@@ -152,6 +152,50 @@ router.delete("/foodlogs/:username", async (req, res) => {
   }
 });
 
+router.put("/foodlogs/update-note", async (req, res) => {
+  try {
+    const { username, date, section, name, notes } = req.body;
+    const userLog = await FoodLogs.findOne({ username });
+
+    if (!userLog || !userLog.logs) {
+      return res.status(404).json({ message: "User log not found." });
+    }
+
+    const dayLog =
+      typeof userLog.logs.get === "function"
+        ? userLog.logs.get(date)
+        : userLog.logs[date];
+
+    if (!dayLog || !dayLog[section]) {
+      return res.status(404).json({ message: "Food log entry not found." });
+    }
+
+    const foodEntry = dayLog[section].find(
+      (f) =>
+        (f.name || "").trim().toLowerCase() ===
+        (name || "").trim().toLowerCase()
+    );
+
+    if (!foodEntry) {
+      return res.status(404).json({ message: "Food entry not found." });
+    }
+
+    // Update the notes
+    foodEntry.notes = notes;
+
+    // Tell Mongoose that 'logs' was modified
+    userLog.markModified("logs");
+
+    // Save the updated document
+    await userLog.save();
+
+    res.json({ message: "Note updated successfully." });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ message: "Server error.", error });
+  }
+});
+
 router.get("/diaries", async (req, res) => {
   try {
     const diaries = await Diaries.find();

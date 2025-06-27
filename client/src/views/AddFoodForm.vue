@@ -20,12 +20,7 @@
       ></v-select>
     </div>
     <div class="submitButton">
-      <v-btn
-        color="black"
-        icon="mdi-magnify"
-        variant="text"
-        @click="getFood"
-      ></v-btn>
+      <v-btn icon="mdi-magnify" variant="text" @click="getFood"></v-btn>
     </div>
   </div>
   <div class="foodTable" v-if="listOfFoods.length">
@@ -114,6 +109,14 @@
       </tbody>
     </v-table>
   </div>
+  <div class="foodForm">
+    <v-text-field
+      v-if="Object.keys(foodInformation).length"
+      label="Notes (optional)"
+      width="1000"
+      v-model="foodInformation.notes"
+    ></v-text-field>
+  </div>
   <div class="buttonContainer" v-if="Object.keys(foodInformation).length">
     <v-btn color="green" class="capitalizeButton" @click="addFoodToDB"
       >Add To Food Log</v-btn
@@ -153,6 +156,7 @@ const facts = [
   "servingWeight",
   "servingUnit",
   "servingQuantity",
+  "notes",
 ];
 const store = useStore();
 const user = ref("");
@@ -202,7 +206,8 @@ async function getSelectedFoodInfo() {
     if (
       fact !== "name" &&
       fact !== "servingQuantity" &&
-      fact !== "servingUnit"
+      fact !== "servingUnit" &&
+      fact !== "notes"
     ) {
       foodInformation[fact] = Number(res[fact]) / Number(res.servingQuantity);
       // Save a copy of the original nutrient facts for later use

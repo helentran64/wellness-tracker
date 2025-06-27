@@ -4,10 +4,14 @@ import App from "./App.vue";
 import router from "./router";
 import { createVuetify } from "vuetify";
 import "vuetify/styles";
-import '@mdi/font/css/materialdesignicons.css';
-import store from "./store"
+import "@mdi/font/css/materialdesignicons.css";
+import store from "./store";
 
-const vuetify = createVuetify({});
+const vuetify = createVuetify({
+  theme: {
+    defaultTheme: "dark",
+  },
+});
 
 const app = createApp(App);
 app.use(vuetify);

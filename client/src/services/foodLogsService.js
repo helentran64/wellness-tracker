@@ -50,3 +50,20 @@ export async function deleteFoodEntry(username, mealType, foodEntry, date) {
     console.error("Error deleting selected food entry", err);
   }
 }
+
+export async function updateFoodNote(username, date, section, name, notes) {
+  try {
+    const data = {
+      username,
+      date,
+      section,
+      name,
+      notes,
+    };
+    const response = await api.put("/foodlogs/update-note", data);
+    return response.data;
+  } catch (err) {
+    console.error("Error updating food note", err);
+    throw err;
+  }
+}
