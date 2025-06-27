@@ -63,11 +63,18 @@
           <td>{{ foodInfo.notes }}</td>
           <td>
             <v-btn
-              icon="mdi-minus"
+              icon="mdi-trash-can"
               color="red"
               size="x-small"
               @click="deleteFood(foodInfo, section)"
-              class="removeFoodButton"
+              class="actionFoodButton"
+            ></v-btn>
+            <v-btn
+              icon="mdi-pencil"
+              color="blue"
+              size="x-small"
+              @click="goToEditFoodNote(foodInfo, section)"
+              class="actionFoodButton"
             ></v-btn>
           </td>
         </tr>
@@ -276,6 +283,17 @@ async function deleteFood(foodEntry, mealType) {
     console.error("Failed to delete food entry");
   }
 }
+
+function goToEditFoodNote(foodInfo, section) {
+  router.push({
+    path: "/edit-food-note",
+    query: {
+      foodInfo: JSON.stringify(foodInfo),
+      section,
+      date: date.value,
+    },
+  });
+}
 </script>
 <style>
 .capitalizeButton {
@@ -300,7 +318,9 @@ async function deleteFood(foodEntry, mealType) {
   margin: 20px auto;
   width: 80%;
 }
-.removeFoodButton {
-  margin-top: 10px;
+.actionFoodButton {
+  display: inline-flex;
+  align-items: center;
+  margin: 2px;
 }
 </style>
