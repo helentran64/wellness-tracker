@@ -158,7 +158,7 @@ function goToDiaryPage() {
 }
 .previewItem {
   border-radius: 20px;
-  box-shadow: 0 0 10px #aaaaaa;
+  box-shadow: 0 0 5px #5c5c5c;
   padding: 20px;
   border-radius: 20px;
   padding: 20px;
