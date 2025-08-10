@@ -1,7 +1,6 @@
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
-  background-color: #f7f7f7;
 }
 /* For the food log and diary preview components */
 .previewSection {
@@ -37,6 +36,5 @@ body {
 /* For the login and sign up page that uses a link to redirect users */
 .router-link-item {
   text-decoration: none;
-  color: blue;
   border-radius: 4px;
 }

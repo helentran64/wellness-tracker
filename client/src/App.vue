@@ -4,13 +4,19 @@ import PageFooter from "@/components/PageFooter.vue";
 import { VBtn } from "vuetify/components";
 import { useStore } from "vuex";
 import { computed } from "vue";
+import { useTheme } from "vuetify";
 import router from "./router";
 
 const store = useStore();
+const theme = useTheme();
 
 const isAuthenticated = computed(() => {
   return store.getters.isAuthenticated;
 });
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
+}
 
 async function signOut() {
   store.dispatch("signOut");
@@ -24,11 +30,17 @@ async function signOut() {
     <div>
       <nav>
         <div class="navbar">
-          <RouterLink to="/" class="router-link-item logo"
+          <RouterLink to="/" class="router-link-item logo mt-2"
             ><i class="fa-solid fa-carrot"></i
             ><span style="font-weight: 500">myWellness</span></RouterLink
           >
           <span class="navItems">
+            <v-btn
+              @click="toggleTheme"
+              icon="mdi-lightbulb-on"
+              variant="plain"
+              class="mb-2"
+            />
             <RouterLink
               v-if="isAuthenticated"
               to="/food-log"
@@ -91,12 +103,9 @@ async function signOut() {
 }
 .router-link-item {
   text-decoration: none;
-  color: black;
   border-radius: 4px;
   margin-right: 10px;
-}
-.navItems .router-link-item:hover {
-  color: #0074af;
+  color: inherit;
 }
 .logo {
   font-size: 20px;

@@ -34,6 +34,11 @@ const router = createRouter({
       name: "Add Food",
       component: () => import("@/views/AddFoodForm.vue"),
     },
+    {
+      path: "/edit-food-note",
+      name: "Edit Food Note",
+      component: () => import("@/views/EditFoodNote.vue"),
+    },
   ],
 });
 

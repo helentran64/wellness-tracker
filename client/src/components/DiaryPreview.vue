@@ -44,7 +44,7 @@ onMounted(() => {
 
 <style scoped>
 .diaryPreviewImage {
-  width: 400px;
+  width: 200px;
   transition: opacity 1s ease-in-out;
 }
 </style>
